@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from GUI.web_interface import gui_blueprint
+from BLL.web_interface import gui_blueprint
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 

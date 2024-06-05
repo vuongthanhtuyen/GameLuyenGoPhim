@@ -1,5 +1,5 @@
 # models.py
-from DTO.Models.Level_db import Level_db
+from DTO.models.Level_db import Level_db
 class Target:
     name = "hhi"
     status = "d"

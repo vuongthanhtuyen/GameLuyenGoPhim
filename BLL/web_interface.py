@@ -1,6 +1,5 @@
 # GUI/web_interface.py
 from flask import Blueprint, render_template, request
-from BLL.business_logic import UserLogic
 
 # Khởi tạo blueprint cho giao diện người dùng
 gui_blueprint = Blueprint('gui', __name__,template_folder='../GUI/templates/')
@@ -15,10 +14,14 @@ def login_form():
 def login():
     username = request.form['username']
     password = request.form['password']
-    
-    user_logic = UserLogic()
-    is_valid, message = user_logic.validate_user(username, password)
 
+    if len(username) < 3:
+        is_valid, message = False, "Tên đăng nhập quá ngắn"
+    elif len(password) < 6:
+        is_valid, message = False, "Mật khẩu quá ngắn"
+    else:   
+        is_valid, message = True, "Đăng nhập thành công"
+    
     if is_valid:
         return f"Đăng nhập thành công: {message}"
     else:
