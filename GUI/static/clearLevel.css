@@ -1,0 +1,26 @@
+.headline{
+    color: #0087D3;
+    font-size: 70px;
+    text-align: center;
+    text-decoration: solid;
+    margin-top: 30%;
+    font-family: Lucida;
+
+}
+
+.titleLevel{
+    color:white;
+    text-align: center;
+    font-size: 30px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+
+}
+.titleTime{
+    color: #025686;
+    font-size: 30px;
+    text-align: center;
+    font-family: Lucida;
+
+
+}

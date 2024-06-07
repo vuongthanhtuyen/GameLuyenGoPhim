@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from BLL.web_interface import gui_blueprint
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+from BLL.clearLevel import clearLevel_bl
+from BLL.levelScreen import levelScreen_bl
 
 db = SQLAlchemy() #khai báo database
 DB_NAME = "database.db" # khai báo tên database
@@ -20,13 +22,14 @@ def create_app():
     # app = Flask(__name__, template_folder='../TEST/GUI/templates/')
 
     # Đăng ký blueprint cho giao diện người dùng
-    app.register_blueprint(gui_blueprint)
-    # app.register_blueprint(gui_blueprint, url_prefix='/')
-
+    app.register_blueprint(gui_blueprint, url_prefix='/')
+    # app.register_blueprint(gui_blueprint,)
+    app.register_blueprint(clearLevel_bl, url_prefix='/')
+    app.register_blueprint(levelScreen_bl, url_prefix='/')
 
     @app.route("/")
     def home():
-        return render_template('index.html',name = "Thanh Tuyen xinh gai")
+        return render_template('home.html')
 
     
     return app

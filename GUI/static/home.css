@@ -1,0 +1,37 @@
+.game{
+    color: white;
+    font-size: 100px;
+    text-align: center;
+    text-decoration: solid;
+    margin-top: 20%;
+    font-family: 'Courier New';
+
+}
+.luyengophim{
+    color: #0087D3;
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 120px;
+    font-family: Lucida;
+
+
+}
+
+li{
+    list-style-type: none;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-left: -30px;
+    font-family: Lucida;
+}
+
+.list_view{
+    color: rgb(184, 191, 197);
+
+}
+.list_view:hover{
+    color:#cc5b04;
+    text-decoration: none;
+
+}

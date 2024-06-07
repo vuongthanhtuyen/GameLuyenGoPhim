@@ -3,9 +3,10 @@
     height: 100vh;
 }
 .center {
-    background-image: url("https://scontent.fdad2-1.fna.fbcdn.net/v/t39.30808-6/447792137_419749767627090_7355267618264927029_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=IL2Wz1RdwqcQ7kNvgGrTt-6&_nc_ht=scontent.fdad2-1.fna&oh=00_AYDmQ_DscPrTJgkOoBJY8AS-JXYYEdEEMYe8hJKVyfYRtw&oe=66682D5C");
+    background-image: url("https://scontent.fdad3-3.fna.fbcdn.net/v/t39.30808-6/447799293_419995447602522_6359850037282984545_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHfZ57N5gxu3Z_e6Fh7mOkl9hap1Cdp3aP2FqnUJ2ndo45qPtRcQeUefZzsV6_TJXwsz2dJzNoFpbAJjrFDkOZC&_nc_ohc=E-FEHsFacoUQ7kNvgHb7cQI&_nc_zt=23&_nc_ht=scontent.fdad3-3.fna&oh=00_AYC89tHmw0Oq_-MFeooAzTWGpoaG1kOXD93YKafs_vp4IQ&oe=6668E03C");
+    background-repeat: no-repeat;
+    background-size:cover ;
     background-position: center; 
     /* box-shadow: black; */
-
 }
 
