@@ -26,11 +26,7 @@ def create_app():
 
     @app.route("/")
     def home():
-        return "Congrarulations, it's a web app! new"
-    @app.route("/index/")
-    def index():
         return render_template('index.html',name = "Thanh Tuyen xinh gai")
-
 
     
     return app
