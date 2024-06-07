@@ -1,0 +1,16 @@
+{% extends "base.html" %} 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='clearLevel.css') }}">
+{% endblock link %}
+
+{%block title%}Game Luyên gõ Phím{%endblock%}
+
+
+{%block content%}
+<div class="container1">
+    <h1 class="headline" >_CLEAR_</h1>
+    <h2 class="titleLevel"> Level {{level}} </h2>
+    <p class="titleTime"> Thời gian {{time}} </p>
+
+</div>
+{%endblock%}
