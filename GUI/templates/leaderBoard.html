@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='leaderBoard.css') }}">
+{% endblock link %}
+
+{%block title%}Bảng xếp hạng{%endblock%}
+
+{%block content%}
+<div>
+    <h1 class = "text-light header">Bảng Xếp hạng</h1>
+    <table class = "text-light table_new" border="1">
+        <tr>
+            
+            <th>TOP </th>
+            <th>Tên </th>
+            <th>Ngày</th>
+            <th>Level</th>
+            <th>Số từ</th>
+            <th>Tổng thời gian</th>
+        </tr>
+    
+        {% for leader_board in leader_boards %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ leader_board.username }}</td>
+            <td>{{ leader_board.record_date }}</td>
+            <td>Level {{ leader_board.id_max_level }}</td>
+            <td>{{ leader_board.total_words }}</td>
+            <td>{{ leader_board.total_time }}</td>
+    
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<li><a class="return btn btn-outline-light" id="home" href="/">Trở về</a></li>
+
+
+{%endblock%}
