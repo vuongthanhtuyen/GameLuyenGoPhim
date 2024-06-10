@@ -1,0 +1,23 @@
+.table_new{
+    text-align:center;
+
+}
+.header{
+    margin-top: 40%;
+    margin-bottom: 5%;
+    text-align:center;
+}
+
+.return{
+
+    color: rgb(184, 191, 197);
+    font-size: 20px;
+    margin: 6%;
+    float: right;
+
+}
+.return:hover{
+    color:#cc5b04;
+    text-decoration: none;
+
+}

@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='levelScreen.css') }}">
+{% endblock link %}
+
+{%block title%}Quản lý database{%endblock%}
+
+
+{%block content%}
+<table class = "text-light" border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Pharse Count</th>
+        <th>Word Count</th>
+    </tr>
+    {% for level in levels %}
+    <tr>
+        <td>{{ level.id }}</td>
+        <td>{{ level.name }}</td>
+        <td>{{ level.phrase_count }}</td>
+        <td>{{ level.word_count }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+
+<h1 class ="text-light">Code your project here Level Screen</h1>
+<li><a class="list_view" id="seedData" href="/seedData">seedData</a></li>
+{%endblock%}
