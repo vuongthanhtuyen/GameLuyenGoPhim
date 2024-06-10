@@ -1,0 +1,10 @@
+.imgplane{
+    display: flex;
+    justify-content: center; /* Canh giữa theo chiều ngang */
+    align-items: flex-end;   /* Canh ở dưới cùng theo chiều dọc */
+    height: 100vh;           /* Chiều cao của container là 100% chiều cao viewport */
+}
+.imgplane img{
+    width: 80px;
+    height: 80px;
+}
