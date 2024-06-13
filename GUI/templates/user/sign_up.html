@@ -1,0 +1,58 @@
+{% extends "base.html" %} 
+{%block title%}Sign up{%endblock%}
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+{% endblock link %}
+{%block content%}
+<form method="POST" class="text-light form-css">
+    <h3 align="center" class="title-css">Sign Up</h3>
+    <div class="form-group input-css">
+        <label for="email">Email Address</label>
+        <input 
+            type="email" 
+            class="form-control" 
+            id ="email" 
+            name ="email"
+            placeholder="Enter Email"
+        />
+    </div>
+
+    <div class="form-group input-css">
+        <label for="firstName">Username</label>
+        <input 
+            type="text" 
+            class="form-control" 
+            id ="firstName" 
+            name ="firstName"
+            placeholder="Enter First Name"
+        />
+    </div>
+
+    <div class="form-group input-css">
+        <label for="password1">Password</label>
+        <input 
+            type="Password" 
+            class="form-control" 
+            id ="password1" 
+            name ="password1"
+            placeholder="Enter Password"
+        />
+    </div>
+
+    <div class="form-group input-css">
+        <label for="password2">Password (Comfirm)</label>
+        <input 
+            type="Password" 
+            class="form-control" 
+            id ="password2" 
+            name ="password2"
+            placeholder="Comfirm Password"
+        />
+    </div>
+    <hr/>
+    <button type="submit" class="btn btn-css"> Sign up</button>
+</form>
+<a class="nav-item nav-link sign-up-css" id="home" href="/">Thoát</a>
+<a class="nav-item nav-link sign-up-css" id="login" href="/login">Login</a>
+
+{%endblock%}

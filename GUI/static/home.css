@@ -35,3 +35,13 @@ li{
     text-decoration: none;
 
 }
+
+.user{
+    float: right;
+    z-index: 2;
+    position: relative;
+    top: 25px;
+}
+.inline-css{
+    display: inline-block;
+}

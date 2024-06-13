@@ -1,7 +1,9 @@
 from flask import Flask, render_template
-from BLL.web_interface import gui_blueprint
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+from flask_login import LoginManager, current_user
+
+
 
 db = SQLAlchemy() #khai báo database
 
@@ -16,6 +18,7 @@ def create_app():
 
     from DTO.models.Level_db import Level_db
     from DTO.models.LeaderBoard_db import LeaderBoard_db
+    from DTO.models.User import User_db
     create_database(app)
 
     # app = Flask(__name__, template_folder='../TEST/GUI/templates/')
@@ -25,18 +28,26 @@ def create_app():
     from BLL.levelScreen import levelScreen_bl
     from BLL.manageData import manageData_bl
     from BLL.leaderBoard import leaderBoard_bl
-
-    app.register_blueprint(gui_blueprint, url_prefix='/')
+    from BLL.user import user_bl
     # app.register_blueprint(gui_blueprint,)
 
     app.register_blueprint(clearLevel_bl, url_prefix='/')
     app.register_blueprint(levelScreen_bl, url_prefix='/')
     app.register_blueprint(manageData_bl, url_prefix='/')
     app.register_blueprint(leaderBoard_bl, url_prefix='/')
+    app.register_blueprint(user_bl, url_prefix='/')
 
     @app.route("/")
     def home():
-        return render_template('home.html')
+        return render_template('home.html', user = current_user)
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'user.login'
+    login_manager.init_app(app)
+    @login_manager.user_loader
+    def load_user(id):
+        return User_db.query.get(int(id))
+    
 
     
     return app
