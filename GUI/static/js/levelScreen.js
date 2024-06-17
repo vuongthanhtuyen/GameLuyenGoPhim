@@ -28,8 +28,11 @@ document.addEventListener("DOMContentLoaded", function() {
       // Lấy dữ liệu từ ô textbox khi nhấn phím dấu cách
       document.getElementById('typeInput').addEventListener('keydown', function(event) {
         if (event.code === 'Space') {
+          event.preventDefault();
           const textboxValue = document.getElementById('typeInput').value;
           document.getElementById('displayText').textContent = textboxValue;
-        };
+          document.getElementById("typeInput").value = "";
+        }
+        ;
     });
   });
