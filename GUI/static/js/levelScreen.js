@@ -29,8 +29,28 @@ document.addEventListener("DOMContentLoaded", function() {
       document.getElementById('typeInput').addEventListener('keydown', function(event) {
         if (event.code === 'Space') {
           event.preventDefault();
-          const textboxValue = document.getElementById('typeInput').value;
-          document.getElementById('displayText').textContent = textboxValue;
+          // const textboxValue = document.getElementById('typeInput').value;
+          // document.getElementById('displayText').textContent = textboxValue;
+
+          const textboxValue = document.getElementById('typeInput').value.trim();
+          const fallingWords = document.querySelectorAll('.word');
+          let found = false;
+
+          fallingWords.forEach(wordElement => {
+            if (wordElement.textContent === textboxValue) {
+              found = true;
+              wordElement.remove(); // Xóa phần tử từ rơi
+            }
+          });
+
+          if (found) {
+            document.getElementById('displayText').textContent = `Matched: ${textboxValue}`;
+          } else {
+            document.getElementById('displayText').textContent = `Not matched: ${textboxValue}`;
+          }
+
+
+
           document.getElementById("typeInput").value = "";
         }
         ;
