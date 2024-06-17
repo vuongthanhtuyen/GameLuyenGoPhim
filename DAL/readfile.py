@@ -17,6 +17,7 @@ def extract_text_from_pdf(pdf_file: str, num_pages: int = None) -> List[str]:
             if content:  # Kiểm tra nếu nội dung không rỗng
                 pdf_text.append(content)
         
+    
         # Ghép tất cả các đoạn văn bản thành một chuỗi dài
         full_text = ' '.join(pdf_text)
         
@@ -38,8 +39,12 @@ def extract_text_from_pdf(pdf_file: str, num_pages: int = None) -> List[str]:
 def random_sample_words(word_list: List[str], sample_size: int) -> List[str]:
     return random.sample(word_list, sample_size)
 
-if __name__ == '__main__':
-    word_array = extract_text_from_pdf('./DAL/filePDF/QTBH.pdf', num_pages=20)  # Load 20 trang đầu
-    sample_size = min(100, len(word_array))  # Đảm bảo không lấy mẫu nhiều hơn số từ có sẵn
-    random_words = random_sample_words(word_array, sample_size)
-    print(random_words)  # In ra danh sách các từ ngẫu nhiên
+def mylist():
+    word_array = extract_text_from_pdf('./DAL/filePDF/TTHCMCK.pdf', num_pages=20)  # Load 20 trang đầu
+    sample_size = min(100, len(word_array))  
+    # Đảm bảo không lấy mẫu nhiều hơn số từ có sẵn
+    return random_sample_words(word_array, sample_size)
+      
+    # In ra danh sách các từ ngẫu nhiên
+thismy = mylist()
+print(type(thismy))
