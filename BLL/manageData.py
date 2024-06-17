@@ -18,5 +18,13 @@ def seedData():
     return redirect(url_for('home'))
 
 
+@manageData_bl.route('/test', methods=['GET'])
+def test():
+    from DAL.readfile import mylist
+    
+    return render_template('test.html', mylist = mylist()) 
+
+
+
 
 
