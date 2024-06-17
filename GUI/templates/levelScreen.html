@@ -1,13 +1,18 @@
 {% extends "base.html" %} 
 {% block link %}
-<link rel="stylesheet" href="{{ url_for('static', filename='levelScreen.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/levelScreen.css') }}">
 {% endblock link %}
 
 {%block title%}Game Luyên gõ Phím{%endblock%}
 
 
 {%block content%}
-<div class="imgplane">
-    <img src="../static/images/SVG/plane.svg" alt="Plane image" class="image">
+<div id="game-area">
+    <p id="displayText">Hello World</p>
+    <div class="imgplane">
+        <input class="typebox" id="typeInput">
+        <img src="../static/images/SVG/plane.svg" alt="Plane image" class="image">
+    </div>
 </div>
+<script src="../static/js/levelScreen.js"></script>
 {%endblock%}
