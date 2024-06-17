@@ -24,7 +24,8 @@
 }
 .typebox:focus {
     outline: none; /* Loại bỏ đường viền focus */
-  }
+}
+
 #game-area {
     position: relative;
     width: 100%;
