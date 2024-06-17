@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
   fetch('/static/json/listWords.json')
     .then(response => response.json())
     .then(data => {
-      const words = data.words; // Lấy danh sách từ từ dữ liệu JSON
-      const gameArea = document.getElementById('game-area');
+      const WORDS = data.words; // Lấy danh sách từ từ dữ liệu JSON
+      const GAMEAREA = document.getElementById('game-area');
 
       // Tạo phần tử từ
       function createWordElement(word) {
@@ -17,19 +17,21 @@ document.addEventListener("DOMContentLoaded", function() {
         wordElement.textContent = word;
         wordElement.classList.add('word');
         wordElement.style.left = Math.random() * 90 + '%'; // Đặt vị trí ngẫu nhiên
-        gameArea.appendChild(wordElement);
+        GAMEAREA.appendChild(wordElement);
 
         // Thêm event listener cho sự kiện animationend
         wordElement.addEventListener('animationend', function() {
           // Dừng tạo từ mới khi một từ hoàn thành animation
           clearInterval(intervalId);
+          var gameStatus = false;
+          // document.getElementById('test').textContent = gameStatus;
         });
       }
 
       // Bắt đầu trò chơi
       function startGame() {
         intervalId = setInterval(() => {
-          const randomWord = words[Math.floor(Math.random() * words.length)];
+          const randomWord = WORDS[Math.floor(Math.random() * WORDS.length)];
           createWordElement(randomWord);
         }, 1000); // Tạo từ mới mỗi giây
       }
