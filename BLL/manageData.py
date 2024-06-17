@@ -21,33 +21,14 @@ def seedData():
 @manageData_bl.route('/test', methods=['GET'])
 def test():
 
-    from DAL.readfile import mylist
+    from DAL.readfile import extract_text_from_pdf
     import json
     
-    data = {"words": mylist()}
-
-
-    # with open('./GUI/static/json/listWords.json', 'w') as file:
-    #     # Bước 4: Sử dụng json.dump() để ghi dữ liệu
-    #     json.dump(mylist(), file)
+    data = {"words": extract_text_from_pdf('./DAL/filePDF/TTHCMCK.pdf')}
     with open('./GUI/static/json/listWords.json', 'w', encoding='utf-8') as file:
         # Bước 4: Sử dụng json.dump() để ghi dữ liệu với ensure_ascii=False
         json.dump(data, file, ensure_ascii=False, indent=4)
-
-
-
-    # Mở file ở chế độ đọc
-    with open('./GUI/static/json/listWords.json', 'r', encoding='utf-8') as file:
-        # Sử dụng json.load() để đọc dữ liệu từ file và chuyển đổi nó thành danh sách
-        loaded_list = json.load(file)
         
-    words_list = data.get("words", [])
+    flash('Đã update jsonfile!',category='success')
 
-    # print("Danh sách đã được đọc từ file my_list.json:", loaded_list)
-        
-    return render_template('test.html', mylist = words_list) 
-
-
-
-
-
+    return redirect(url_for('home'))
