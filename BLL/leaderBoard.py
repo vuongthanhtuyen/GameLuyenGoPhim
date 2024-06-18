@@ -6,6 +6,10 @@ leaderBoard_bl = Blueprint('leaderBoard', __name__,template_folder='../GUI/templ
 
 @leaderBoard_bl.route('/leaderBoard', methods=['GET'])
 def leaderBoard_Get():
-    leader_boards = LeaderBoard_db.query.order_by(LeaderBoard_db.id_max_level.desc(), LeaderBoard_db.total_words.desc(), LeaderBoard_db.total_time.desc()).all()
+    leader_boards = LeaderBoard_db.query.order_by(
+        LeaderBoard_db.id_max_level.desc(),
+        LeaderBoard_db.total_words.desc(),
+        LeaderBoard_db.total_time.desc()
+    ).limit(5).all()
     return render_template('leaderBoard.html', leader_boards=leader_boards)
 
