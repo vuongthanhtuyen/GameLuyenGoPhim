@@ -1,9 +1,10 @@
-{% extends "base.html" %} 
 {% block link %}
 <link rel="stylesheet" href="{{ url_for('static', filename='levelScreen.css') }}">
 {% endblock link %}
 
 {%block title%}Quản lý database{%endblock%}
+<li><a class="list_view" id="seedData" href="/seedData">seedData</a></li>
+<li><a class="list_view" id="test" href="/test">update Data</a></li>
 
 
 {%block content%}
@@ -23,7 +24,4 @@
     </tr>
     {% endfor %}
 </table>
-<h1 class ="text-light">Code your project here Level Screen</h1>
-<li><a class="list_view" id="seedData" href="/seedData">seedData</a></li>
-<li><a class="list_view" id="test" href="/test">update Data</a></li>
 {%endblock%}
