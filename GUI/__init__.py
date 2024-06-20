@@ -29,6 +29,7 @@ def create_app():
     from BLL.manageData import manageData_bl
     from BLL.leaderBoard import leaderBoard_bl
     from BLL.user import user_bl
+    from BLL.personalReview import personalReview_bl
     # app.register_blueprint(gui_blueprint,)
 
     app.register_blueprint(clearLevel_bl, url_prefix='/')
@@ -36,6 +37,7 @@ def create_app():
     app.register_blueprint(manageData_bl, url_prefix='/')
     app.register_blueprint(leaderBoard_bl, url_prefix='/')
     app.register_blueprint(user_bl, url_prefix='/')
+    app.register_blueprint(personalReview_bl, url_prefix='/')
 
     @app.route("/")
     def home():
@@ -51,6 +53,8 @@ def create_app():
 
     
     return app
+
+
 def create_database(app):
     if not path.exists('instance/' + DB_NAME):
         with app.app_context():

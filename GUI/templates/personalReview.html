@@ -1,0 +1,51 @@
+{% extends "base.html" %} 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/personalReview.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock link %}
+
+{%block title%}Đánh giá cá nhân{%endblock%}
+
+
+{%block content%}
+
+<div class="scoreboard">
+        <div class="score col-6">
+            <span class="label">FINAL SCORE</span>
+            <span class="value">000274</span>
+        </div>
+        <div class="wave col-6">
+            <span class="label">YOU REACHED</span>
+            <span class="value">WAVE 007</span>
+        </div>
+
+    <div class="accuracy col-6">
+        <span class="label">ACCURACY</span>
+        <span class="value">86.8%</span>
+    </div>
+    <div class="streak col-6">
+        <span class="label">LONGEST STREAK</span>
+        <span class="value">26</span>
+    </div>
+</div>
+<canvas id="myChart" width="400" height="200"></canvas>
+<button class="btn btn-outline-info" id="clearDataButton">Clear Data</button>
+
+<li><a class="list_view" id="" href="/">Trở về trang chủ</a></li>
+
+<!-- Phần tử chứa dữ liệu từ Python -->
+<script id="data-from-python" type="application/json">
+    {{ data_from_python | tojson }}
+</script>
+
+<!--
+<script>
+    savePersonalReview(3,500)
+    savePersonalReview(4,200)
+    savePersonalReview(5,1200)
+    savePersonalReview(6,900)
+</script>
+-->
+
+<script src="../static/js/personalReview.js"></script>
+{%endblock%}

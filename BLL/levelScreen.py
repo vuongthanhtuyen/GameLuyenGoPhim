@@ -11,8 +11,8 @@ levelScreen_bl = Blueprint('levelScreen', __name__,template_folder='../GUI/templ
 def levelScreen():
     return render_template('levelScreen.html')
 
-@levelScreen_bl.route('/addtop', methods=['GET'])
-def addNewTopUser():
+@levelScreen_bl.route('/endGame', methods=['GET'])
+def endGame():
     id_max_level = 22
     username = 'Me'
     total_words = 400

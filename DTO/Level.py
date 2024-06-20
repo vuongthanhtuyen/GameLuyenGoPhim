@@ -1,15 +1,7 @@
-# # models.py
-# from DTO.models.Level_db import Level_db
-# class Target:
-#     name = "hhi"
-#     status = "d"
-
-# class Level(Level_db,Target):
-#     target_list = [] 
-
-#     def __hihi__():
-#         print(Level_db.name)
-
-    
-    
+class PersonalReview():
+    def __init__(self, id, recordLevel, recordTime, recordWord):
+        self.id = id
+        self.recordLevel = recordLevel
+        self.recordTime = recordTime
+        self.recordWord = recordWord
 

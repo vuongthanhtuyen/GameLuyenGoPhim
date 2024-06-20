@@ -1,3 +1,6 @@
+body {
+    background-color: #000000;
+}
 .left, .right {
     background-color: black;
     height: 100vh;
