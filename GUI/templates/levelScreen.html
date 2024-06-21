@@ -8,10 +8,23 @@
 
 {%block content%}
 <div id="game-area">
+    <form method="POST" class="text-light form-css">
+        <div class="d-flex align-items-end flex-column">
+            <input 
+                type="hidden"
+                id ="email" 
+                name ="email"
+                value="3487"
+            />
+        </div>
+        <button type="submit" class="btn btn-outline-light btn-css mt-auto p-2"> POST</button>
+    </form>
+    
     <div class="imgplane">
         <input class="typebox" id="typeInput" title="Khung nhập chữ để bắn.">
         <img src="../static/images/SVG/plane.svg" alt="Plane image" class="image">
     </div>
+
 </div>
 <script src="../static/js/levelScreen.js"></script>
 {%endblock%}

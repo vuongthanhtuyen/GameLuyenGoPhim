@@ -1,0 +1,92 @@
+{% extends "leaderBoard.html" %} 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='leaderBoard.css') }}">
+{% endblock link %}
+
+{%block title%}Bảng xếp hạng{%endblock%}
+
+{%block content%}
+<div>
+    <h1 class = "text-light header">Bảng Xếp hạng</h1>
+    <table class = "text-light table_new" border="1">
+        <tr>
+            
+            <th>TOP </th>
+            <th>Tên </th>
+            <th>Ngày</th>
+            <th>Level</th>
+            <th>Số từ</th>
+            <th>Tổng thời gian</th>
+        </tr>
+    
+        {% for leader_board in leader_boards %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ leader_board.username }}</td>
+            <td>{{ leader_board.record_date }}</td>
+            <td>Level {{ leader_board.id_max_level }}</td>
+            <td>{{ leader_board.total_words }}</td>
+            <td>{{ leader_board.total_time }}</td>
+    
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<li><a class="return btn btn-outline-light" id="home" href="/">Trở về</a></li>
+
+
+<div class="modal fade" id="vitem" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form method="POST">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Chúc mừng bạn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if errorUserName %}
+                    {{errorUserName}}
+                    hihihi
+                    {% else %}
+                    Điểm số của bạn rất ấn tượng, ghi tên vào đây để thêm vào bảng xếp hạng nhé!
+                    {{errorUserName}}
+
+                    {% endif %}
+                    <div>
+                        <input  
+                        type="text"
+                        id ="username"
+                        name = "username"
+                        placeholder="Tên người chơi"
+                        />
+        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-light btn-css"> OK </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+    <!-- Các thẻ script cần thiết -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Thêm đoạn script để mở modal khi tải trang -->
+    <script>
+        $(document).ready(function(){
+            $('#vitem').modal('show');
+        });
+    </script>
+
+
+
+{%endblock%}
