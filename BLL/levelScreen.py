@@ -15,12 +15,13 @@ def LevelScreen():
     if request.method=="POST":
         from DTO.models.LeaderBoard_db import LeaderBoard_db
         level_count = LeaderBoard_db.query.count()
-        topUser = LeaderBoard_db(
-            id_max_level = 21,
-            username = "",
-            total_words = 299,
-            total_time = 32
-        )
+        topUser = {
+            "id_max_level": 21,
+            "username": "",
+            "total_words": 299,
+            "total_time": 32
+        }
+
 
         #check top 5
         lowest_leaderboard = LeaderBoard_db.query.order_by(
@@ -36,11 +37,11 @@ def LevelScreen():
             return redirect(url_for("levelScreen.CreateUsername"))
 
         elif lowest_leaderboard:
-            if (topUser.id_max_level > lowest_leaderboard.id_max_level) or (
-                    (topUser.id_max_level == lowest_leaderboard.id_max_level) and (topUser.total_words > lowest_leaderboard.total_words)) or (
-                    (topUser.id_max_level == lowest_leaderboard.id_max_level) and (topUser.total_words == lowest_leaderboard.total_words) and (
-                    topUser.total_time > lowest_leaderboard.total_time)):
-                #nếu user đạt top thì add vào một thằng mới
+            if (topUser["id_max_level"] > lowest_leaderboard.id_max_level) or (
+                    (topUser["id_max_level"] == lowest_leaderboard.id_max_level) and (topUser["total_words"] > lowest_leaderboard.total_words)) or (
+                    (topUser["id_max_level"] == lowest_leaderboard.id_max_level) and (topUser["total_words"] == lowest_leaderboard.total_words) and (
+                    topUser["total_time"] > lowest_leaderboard.total_time)):
+                # nếu user đạt top thì add vào một thằng mới
                 return redirect(url_for("levelScreen.CreateUsername"))
         session.pop("createUsername",None)
         return redirect(url_for("personalReview.personalReview"))
@@ -102,9 +103,15 @@ def CreateUsername():
             if(len(new_username)<=0):
                 errorUserName = "Vui lòng nhập tên!"
                 return  render_template('createUsername.html',leader_boards=leader_boards, errorUserName = errorUserName)
-            newTopUser = session["createUsername"]
-            newTopUser.username = new_username
-            db.session.add(newTopUser)
+            newTopUser = session.pop("createUsername")
+            topUser = LeaderBoard_db(
+                id_max_level=newTopUser["id_max_level"],
+                username=new_username,
+                total_words=newTopUser["total_words"],
+                total_time=newTopUser["total_time"]
+            )
+
+            db.session.add(topUser)
             db.session.commit()
             leader_boards = LoadLeaderBoard()
         
