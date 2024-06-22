@@ -33,11 +33,11 @@
     color: white;
 }
 
-.word {
+.target {
     text-align: center;
     position: absolute;
     font-size: 18px;
-    animation: fall 5s linear forwards;
+    animation: fall 10s linear forwards;
 }
 
 @keyframes fall {
@@ -48,15 +48,10 @@
         top: 90%;
     }
 }
+
 .form-css{
     z-index: 9;
     left: 0;
-    position: absolute;
-    top: 0;
-}
-.form-css2{
-    z-index: 9;
-    right: 0;
     position: absolute;
     top: 0;
 }
