@@ -48,10 +48,15 @@
         top: 90%;
     }
 }
-
 .form-css{
     z-index: 9;
     left: 0;
+    position: absolute;
+    top: 0;
+}
+.form-css2{
+    z-index: 9;
+    right: 0;
     position: absolute;
     top: 0;
 }
