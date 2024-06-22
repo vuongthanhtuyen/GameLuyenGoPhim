@@ -9,8 +9,24 @@
 {%block content%}
 <div class="container1">
     <h1 class="headline" >_CLEAR_</h1>
-    <h2 class="titleLevel"> Level {{level}} </h2>
-    <p class="titleTime"> Thời gian {{time}} </p>
+
+    <h2 class="titleLevel"> Level {{idLevel}} </h2>
+    <p class="titleTime"> Số từ {{word_count}} </p>
 
 </div>
+    <form id="autoSubmitForm" method="POST" action ="{{ url_for('clearLevel.clearLevel') }}" class="text-light form-css2 hidden-form">
+        <div class="d-flex align-items-end flex-column">
+            <input type="hidden" id="idPost" name="idPost" value="{{ idLevel }}" />
+            <input type="hidden" id="wordCountPost" name="wordCountPost" value="{{ word_count }}" />
+
+        </div>
+        <button type="submit" class="btn btn-outline-light btn-css mt-auto p-2">Next Game</button>
+    </form>
+
+    <script>
+        setTimeout(function() {
+            document.getElementById('autoSubmitForm').submit();
+        }, 3000); // Chuyển sau 3 giây
+    </script>
+    
 {%endblock%}

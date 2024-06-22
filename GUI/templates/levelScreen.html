@@ -8,16 +8,21 @@
 
 {%block content%}
 <div id="game-area">
-    <form method="POST" class="text-light form-css">
+    <form method="POST" action ="{{url_for('levelScreen.EndGamePost')}}" class="text-light form-css">
         <div class="d-flex align-items-end flex-column">
-            <input 
-                type="hidden"
-                id ="email" 
-                name ="email"
-                value="3487"
-            />
+            <input type="hidden" id ="id_max_level"  name ="id_max_level" value="20"/>
+            <input type="hidden" id ="total_words" name ="total_words" value="100"/>
+            <input type="hidden" id ="total_time" name ="total_time" value="100"/>
+
         </div>
-        <button type="submit" class="btn btn-outline-light btn-css mt-auto p-2"> POST</button>
+        <button type="submit" class="btn btn-outline-light btn-css mt-auto p-2"> End game</button>
+    </form>
+
+    <form method="POST" action ="{{url_for('levelScreen.ClearLevelPost')}}" class="text-light form-css2">
+        <div class="d-flex align-items-end flex-column">
+            <input type="hidden" id ="idPost" name ="idPost" value="{{idLevel}}" />
+        </div>
+        <button type="submit" class="btn btn-outline-light btn-css mt-auto p-2"> Next Game </button>
     </form>
     
     <div class="imgplane">
