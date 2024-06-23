@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Bản record turn dùng để post về
-  function recordTurn(nowLevel, totalTarget, totalTime) {
-    this.nowLevel = nowLevel;
+  function recordTurn(id, totalTarget, totalTime) {
+    this.id = id;
     this.totalTarget = totalTarget;
     this.totalTime = totalTime;
   }
@@ -80,6 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const fallingWords = document.querySelectorAll(".target");
         if (i == level.targetCount) {
           turnTime = (Date.now() - turnTime) / 1000;
+          turn.totalTarget = turn.totalTarget + i;
+          turn.totalTime = turn.totalTime + turnTime;
           clickClearLevelButton();
         }
         fallingWords.forEach((wordElement) => {
@@ -135,8 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function clickClearLevelButton() {
     var clearLevelButton = document.getElementById("clearLevel");
-    turn.totalTarget = turn.totalTarget + i;
-    turn.totalTime = turn.totalTime + turnTime;
+    document.getElementById("idPost").value = turn.id;
     clearLevelButton.click();
   }
 });
