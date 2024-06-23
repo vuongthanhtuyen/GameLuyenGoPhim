@@ -13,17 +13,19 @@ document.addEventListener("DOMContentLoaded", function () {
     this.gameStatus = gameStatus;
     this.listTargets = listTargets;
     this.targetCount = targetCount;
+    this.poppedTargets = [];
   }
 
-  // bản record turn dùng để post về
-  function recordTurn(nowLevel, recordDate, totalTarget, totalTime){
-    this.nowLevel =  nowLevel
-    this.recordDate = recordDate 
-    this.totalTarget = totalTarget
-    this.totalTime = totalTime
+  // Bản record turn dùng để post về
+  function recordTurn(nowLevel, recordDate, totalTarget, totalTime) {
+    this.nowLevel = nowLevel;
+    this.recordDate = recordDate;
+    this.totalTarget = totalTarget;
+    this.totalTime = totalTime;
   }
 
   // Khởi tạo level
+  var shuffledCheck;
   var level = new Level(1, true, [], 4);
 
   // Lấy dữ liệu từ Json
@@ -42,6 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       // Tạo các đối tượng Target từ mảng words và gán cho level
       level.listTargets = data.words.map((item) => new Target(item, true));
+    })
+    .then(() => {
       // Bắt đầu trò chơi
       startGame();
     })
@@ -49,10 +53,21 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
     });
 
-  // Hàm lấy ngẫu nhiên các mục từ listTargets
-  function getRandomTargets(listTargets, targetCount) {
-    var shuffled = listTargets.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, targetCount);
+  function getRandomTargets(level) {
+    // Tạo một mảng chứa các đối tượng Target ngẫu nhiên
+    var shuffled = [];
+
+    // Tạo một bản sao của mảng level.listTargets để trộn ngẫu nhiên
+    var copyListTargets = [...level.listTargets];
+
+    // Trộn ngẫu nhiên các phần tử trong mảng copyListTargets
+    copyListTargets.sort(() => 0.5 - Math.random());
+
+    // Lấy targetCount phần tử đầu tiên từ mảng đã trộn
+    shuffled = copyListTargets.slice(0, level.targetCount);
+    // Console.log(shuffled)
+
+    return shuffled;
   }
 
   // Hàm tạo phần tử span từ target
@@ -72,16 +87,12 @@ document.addEventListener("DOMContentLoaded", function () {
     GAMEAREA.appendChild(targetElement);
   }
 
-  // Bắt đầu trò chơi
   function startGame() {
-    // Tự động focus vào ô textbox khi DOM đã sẵn sàng
     document.getElementById("typeInput").focus();
-    if (!level) return; // Chờ đến khi level được khởi tạo
-
-    const { listTargets, targetCount } = level;
+    if (!level) return;
 
     // Tạo danh sách ngẫu nhiên từ listTargets
-    const shuffled = getRandomTargets(listTargets, targetCount);
+    const shuffled = getRandomTargets(level);
 
     // Khởi tạo trò chơi với các mục tiêu ngẫu nhiên
     intervalId = setInterval(() => {
@@ -89,37 +100,43 @@ document.addEventListener("DOMContentLoaded", function () {
         clearInterval(intervalId);
         return;
       }
-      const randomTarget = shuffled.pop();
-      createTargetElement(randomTarget);
+      var randomTarget = shuffled.pop();
+
+      // Thêm đối tượng đã pop vào mảng poppedTargets (tạo bản sao)
+      let newTarget = new Target(randomTarget.name, randomTarget.status);
+      level.poppedTargets.push(newTarget);
+
+      createTargetElement(newTarget);
     }, 1000); // Tạo từ mới mỗi giây
   }
 
-  // Lấy dữ liệu từ ô textbox khi nhấn phím dấu cách
-  document
-    .getElementById("typeInput")
-    .addEventListener("keydown", function (event) {
-      if (event.code === "Space") {
-        event.preventDefault();
-        const textboxValue = document.getElementById("typeInput").value.trim();
-        const fallingWords = document.querySelectorAll(".target");
-        let found = false;
+  document.getElementById("typeInput").addEventListener("keydown", function (event) {
+    if (event.code === "Space") {
+      event.preventDefault();
+      const textboxValue = document.getElementById("typeInput").value.trim();
+      const fallingWords = document.querySelectorAll(".target");
 
-        fallingWords.forEach((wordElement) => {
-          if (wordElement.textContent === textboxValue) {
-            found = true;
-            // Ẩn phần tử từ rơi
-            wordElement.style.visibility = "hidden";
+      fallingWords.forEach((wordElement) => {
+        if (wordElement.textContent === textboxValue) {
+          wordElement.remove();
 
-            // Tìm đối tượng target tương ứng và cập nhật status
-            const target = level.listTargets.find(
-              (t) => t.name === textboxValue
-            );
-            if (target) {
-              target.status = false;
-            }
+          // Tìm và cập nhật trạng thái của đối tượng trong level.poppedTargets
+          const targetToUpdate = level.poppedTargets.find((t) => t.name === textboxValue);
+          console.log(level.poppedTargets);
+          if (targetToUpdate) {
+            console.log("Đối tượng Target:", targetToUpdate);
+            // Cập nhật trạng thái của đối tượng
+            targetToUpdate.status = false; // Ví dụ cập nhật status thành false
+            console.log(level.poppedTargets);
+
+            // Thực hiện bất kỳ công việc nào khác sau khi cập nhật
+          } else {
+            console.log(`Không tìm thấy target với name '${textboxValue}'`);
           }
-        });
-        document.getElementById("typeInput").value = "";
-      }
-    });
+        }
+      });
+
+      document.getElementById("typeInput").value = "";
+    }
+  });
 });
