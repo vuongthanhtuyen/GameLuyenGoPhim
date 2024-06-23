@@ -15,16 +15,18 @@
             <input type="hidden" id ="total_time" name ="total_time" value="100"/>
 
         </div>
-        <button type="submit" class="btn btn-outline-light btn-css mt-auto p-2"> End game</button>
+        <button type="submit" id="endLevel" class="btn btn-outline-light btn-css mt-auto p-2"> End game</button>
     </form>
 
     <form method="POST" action ="{{url_for('levelScreen.ClearLevelPost')}}" class="text-light form-css2">
         <div class="d-flex align-items-end flex-column">
             <input type="hidden" id ="idPost" name ="idPost" value="{{idLevel}}" />
         </div>
-        <button type="submit" class="btn btn-outline-light btn-css mt-auto p-2"> Next Game </button>
+        <button type="submit" id="clearLevel" class="btn btn-outline-light btn-css mt-auto p-2"> Next Game </button>
     </form>
-    
+    {{idLevel}}
+    {{word_count}}
+
     <div class="imgplane">
         <input class="typebox" id="typeInput" title="Khung nhập chữ để bắn.">
         <img src="../static/images/SVG/plane.svg" alt="Plane image" class="image">
