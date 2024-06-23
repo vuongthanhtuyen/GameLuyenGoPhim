@@ -24,8 +24,10 @@
         </div>
         <button type="submit" id="clearLevel" class="btn btn-outline-light btn-css mt-auto p-2"> Next Game </button>
     </form>
-    {{idLevel}}
-    {{word_count}}
+    
+        <input type="hidden" id="idLevel" value={{idLevel}} />
+        <input type="hidden" id="word_count" value={{word_count}} />
+    
 
     <div class="imgplane">
         <input class="typebox" id="typeInput" title="Khung nhập chữ để bắn.">
