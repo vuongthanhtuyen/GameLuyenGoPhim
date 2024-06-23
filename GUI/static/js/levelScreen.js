@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Khởi tạo level
-  var shuffledCheck;
+  var i = 0;
   var level = new Level(1, true, [], 4);
 
   // Lấy dữ liệu từ Json
@@ -44,48 +44,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       // Tạo các đối tượng Target từ mảng words và gán cho level
       level.listTargets = data.words.map((item) => new Target(item, true));
-    })
-    .then(() => {
-      // Bắt đầu trò chơi
       startGame();
     })
     .catch((error) => {
       console.error("Có lỗi xảy ra khi lấy dữ liệu:", error);
     });
-
-  function getRandomTargets(level) {
-    // Tạo một mảng chứa các đối tượng Target ngẫu nhiên
-    var shuffled = [];
-
-    // Tạo một bản sao của mảng level.listTargets để trộn ngẫu nhiên
-    var copyListTargets = [...level.listTargets];
-
-    // Trộn ngẫu nhiên các phần tử trong mảng copyListTargets
-    copyListTargets.sort(() => 0.5 - Math.random());
-
-    // Lấy targetCount phần tử đầu tiên từ mảng đã trộn
-    shuffled = copyListTargets.slice(0, level.targetCount);
-    // Console.log(shuffled)
-
-    return shuffled;
-  }
-
-  // Hàm tạo phần tử span từ target
-  function createTargetElement(target) {
-    const GAMEAREA = document.getElementById("game-area");
-    const targetElement = document.createElement("span");
-    targetElement.textContent = target.name;
-    targetElement.classList.add("target");
-    targetElement.style.left = Math.random() * 90 + "%"; // Đặt vị trí ngẫu nhiên
-
-    // Thêm sự kiện khi kết thúc hoạt ảnh
-    targetElement.addEventListener("animationend", function () {
-      level.gameStatus = false;
-      targetElement.remove();
-    });
-
-    GAMEAREA.appendChild(targetElement);
-  }
 
   function startGame() {
     document.getElementById("typeInput").focus();
@@ -101,42 +64,71 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       var randomTarget = shuffled.pop();
-
       // Thêm đối tượng đã pop vào mảng poppedTargets (tạo bản sao)
       let newTarget = new Target(randomTarget.name, randomTarget.status);
       level.poppedTargets.push(newTarget);
-
       createTargetElement(newTarget);
     }, 1000); // Tạo từ mới mỗi giây
   }
 
-  document.getElementById("typeInput").addEventListener("keydown", function (event) {
-    if (event.code === "Space") {
-      event.preventDefault();
-      const textboxValue = document.getElementById("typeInput").value.trim();
-      const fallingWords = document.querySelectorAll(".target");
-
-      fallingWords.forEach((wordElement) => {
-        if (wordElement.textContent === textboxValue) {
-          wordElement.remove();
-
-          // Tìm và cập nhật trạng thái của đối tượng trong level.poppedTargets
-          const targetToUpdate = level.poppedTargets.find((t) => t.name === textboxValue);
+  document
+    .getElementById("typeInput")
+    .addEventListener("keydown", function (event) {
+      if (event.code === "Space") {
+        event.preventDefault();
+        const textboxValue = document.getElementById("typeInput").value.trim();
+        const fallingWords = document.querySelectorAll(".target");
+        if (i == level.targetCount) {
           console.log(level.poppedTargets);
-          if (targetToUpdate) {
-            console.log("Đối tượng Target:", targetToUpdate);
-            // Cập nhật trạng thái của đối tượng
-            targetToUpdate.status = false; // Ví dụ cập nhật status thành false
-            console.log(level.poppedTargets);
-
-            // Thực hiện bất kỳ công việc nào khác sau khi cập nhật
-          } else {
-            console.log(`Không tìm thấy target với name '${textboxValue}'`);
-          }
+          clickClearLevelButton();
         }
-      });
+        fallingWords.forEach((wordElement) => {
+          if (wordElement.textContent === textboxValue) {
+            wordElement.remove();
+            // Tìm và cập nhật trạng thái của đối tượng trong level.poppedTargets
+            if (level.listTargets.find((t) => t.name === textboxValue)) {
+              i++;
+            }
+          }
+        });
 
-      document.getElementById("typeInput").value = "";
-    }
-  });
+        document.getElementById("typeInput").value = "";
+      }
+    });
+    
+  function getRandomTargets(level) {
+    // Tạo một mảng chứa các đối tượng Target ngẫu nhiên
+    var shuffled = [];
+    var copyListTargets = [...level.listTargets];
+    copyListTargets.sort(() => 0.5 - Math.random());
+    shuffled = copyListTargets.slice(0, level.targetCount);
+    return shuffled;
+  }
+
+  // Hàm tạo phần tử span từ target
+  function createTargetElement(target) {
+    const GAMEAREA = document.getElementById("game-area");
+    const targetElement = document.createElement("span");
+    targetElement.textContent = target.name;
+    targetElement.classList.add("target");
+    targetElement.style.left = Math.random() * 90 + "%"; // Đặt vị trí ngẫu nhiên
+
+    // Thêm sự kiện khi kết thúc hoạt ảnh
+    targetElement.addEventListener("animationend", function () {
+      level.gameStatus = false;
+      clickEndLevelButton();
+      targetElement.remove();
+    });
+
+    GAMEAREA.appendChild(targetElement);
+  }
+
+  function clickEndLevelButton() {
+    var endLevelButton = document.getElementById("endLevel");
+    endLevelButton.click();
+  }
+  function clickClearLevelButton() {
+    var clearLevelButton = document.getElementById("clearLevel");
+    clearLevelButton.click();
+  }
 });
