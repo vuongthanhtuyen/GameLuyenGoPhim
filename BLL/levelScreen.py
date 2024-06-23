@@ -44,7 +44,7 @@ def EndGamePost():
     # Thêm vào personal review khi khi người dùng endgame
     data_from_python = {'id': 2, 'recordWord': 800}
     newIdMaxLevel = int(request.form.get('id_max_level'))
-    newTotalTime = int(request.form.get('total_time'))
+    newTotalTime = float(request.form.get('total_time'))
     newTotalWord = int(request.form.get('total_words'))
 
     # return render_template('index.html', data_from_python=data_from_python)
