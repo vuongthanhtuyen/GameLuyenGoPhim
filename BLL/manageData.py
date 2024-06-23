@@ -18,8 +18,8 @@ def seedData():
     return redirect(url_for('home'))
 
 
-@manageData_bl.route('/test', methods=['GET'])
-def test():
+@manageData_bl.route('/loadJsonWord', methods=['GET'])
+def LoadJsonWord():
 
     from DAL.readfile import extract_text_from_pdf
     import json
@@ -32,3 +32,10 @@ def test():
     flash('Đã update jsonfile!',category='success')
 
     return redirect(url_for('home'))
+
+
+@manageData_bl.route('/testLoadFile', methods=['GET'])
+def TestLoadFile():
+
+    return render_template('test.html')
+
