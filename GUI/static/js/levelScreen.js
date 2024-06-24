@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   let intervalId; // Biến lưu trữ setInterval ID
+  let i = 0; // Biến đếm số từ đã gõ đúng
+  var level; // Đối tượng level
+  let turn; // Đối tượng recordTurn
+  let turnTime = 0; // Biến lưu thời gian của mỗi turn
 
   // Định nghĩa lớp Target
   function Target(name, status) {
@@ -13,21 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
     this.gameStatus = gameStatus;
     this.listTargets = listTargets;
     this.targetCount = targetCount;
-    this.poppedTargets = [];
   }
 
   // Bản record turn dùng để post về
-  function recordTurn(id, totalTarget, totalTime) {
+  function RecordTurn(id, totalTarget, totalTime) {
     this.id = id;
     this.totalTarget = totalTarget;
     this.totalTime = totalTime;
   }
-
-  // Khởi tạo level
-  var i = 0;
-  var level = new Level(1, true, [], 4);
-  var turn = new recordTurn(level.id, 0, 0);
-  var turnTime = 0;
 
   // Lấy dữ liệu từ Json
   const apiUrl = "/static/json/listWords.json";
@@ -42,8 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!Array.isArray(data.words)) {
         throw new TypeError("Dữ liệu trả về không chứa mảng words");
       }
+      // Khởi tạo level
+      level = new Level(1, true, [], 4);
+      turn = new RecordTurn(level.id, 0, 0);
+
       // Tạo các đối tượng Target từ mảng words và gán cho level
       level.listTargets = data.words.map((item) => new Target(item, true));
+
+      // Gọi hàm startGame sau khi đã tải dữ liệu thành công
       startGame();
     })
     .catch((error) => {
@@ -53,10 +56,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function startGame() {
     document.getElementById("typeInput").focus();
     if (!level) return;
+    console.log(level)
 
     // Tạo danh sách ngẫu nhiên từ listTargets
     const shuffled = getRandomTargets(level);
     turnTime = Date.now();
+
     // Khởi tạo trò chơi với các mục tiêu ngẫu nhiên
     intervalId = setInterval(() => {
       if (shuffled.length === 0) {
@@ -64,12 +69,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       var randomTarget = shuffled.pop();
-      // Thêm đối tượng đã pop vào mảng poppedTargets (tạo bản sao)
       let newTarget = new Target(randomTarget.name, randomTarget.status);
-      level.poppedTargets.push(newTarget);
       createTargetElement(newTarget);
     }, 1000); // Tạo từ mới mỗi giây
   }
+
 
   document
     .getElementById("typeInput")
@@ -78,22 +82,24 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         const textboxValue = document.getElementById("typeInput").value.trim();
         const fallingWords = document.querySelectorAll(".target");
+
+        // Kiểm tra nếu đạt đủ số từ cần gõ
         if (i == level.targetCount) {
           turnTime = (Date.now() - turnTime) / 1000;
           turn.totalTarget = turn.totalTarget + i;
           turn.totalTime = turn.totalTime + turnTime;
           clickClearLevelButton();
+          startGame();
         }
+
         fallingWords.forEach((wordElement) => {
           if (wordElement.textContent === textboxValue) {
             wordElement.remove();
-            // Tìm và cập nhật trạng thái của đối tượng trong level.poppedTargets
             if (level.listTargets.find((t) => t.name === textboxValue)) {
               i++;
             }
           }
         });
-
         document.getElementById("typeInput").value = "";
       }
     });
@@ -117,9 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Thêm sự kiện khi kết thúc hoạt ảnh
     targetElement.addEventListener("animationend", function () {
-      turn.totalTime =
-        turn.totalTime + (turnTime = (Date.now() - turnTime) / 1000);
-      turn.totalTarget = turn.totalTarget + i;
+      turn.totalTime += (Date.now() - turnTime) / 1000;
+      turn.totalTarget += i;
       level.gameStatus = false;
       clickEndLevelButton();
       targetElement.remove();
@@ -135,9 +140,14 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("total_time").value = turn.totalTime;
     endLevelButton.click();
   }
+
   function clickClearLevelButton() {
     var clearLevelButton = document.getElementById("clearLevel");
     document.getElementById("idPost").value = turn.id;
+    level.id = document.getElementById("idLevel").value;
+    level.targetCount = document.getElementById("word_count").value;
     clearLevelButton.click();
   }
+
+  
 });
