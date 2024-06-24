@@ -64,3 +64,24 @@
 .btn{
     display: none;
 }
+
+.centered-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: aqua;
+     */
+    color: white;
+    padding: 15px;
+    /* border: 10px aqua; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: fadeInOut 0.5s ease-in-out;
+    text-size-adjust: 20px;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
