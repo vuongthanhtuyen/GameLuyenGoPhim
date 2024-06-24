@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function clickEndLevelButton() {
     var endLevelButton = document.getElementById("endLevel");
-    document.getElementById("id_max_level").value = level.id;
+    document.getElementById("id_max_level").value = level.id+1;
     document.getElementById("total_words").value = turn.totalTarget;
     document.getElementById("total_time").value = Math.floor(turn.totalTime);
     endLevelButton.click();
