@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         throw new TypeError("Dữ liệu trả về không chứa mảng words");
       }
       // Khởi tạo level
-      level = new Level(1, true, [], 4);
+      level = new Level(0, true, [], 4);
       turn = new RecordTurn(level.id, 0, 0);
 
       // Tạo các đối tượng Target từ mảng words và gán cho level
@@ -87,8 +87,9 @@ document.addEventListener("DOMContentLoaded", function () {
           turnTime = (Date.now() - turnTime) / 1000;
           turn.totalTarget = turn.totalTarget + i;
           turn.totalTime = turn.totalTime + turnTime;
-          console.log(i);
-          showNotificationClear("clear", 1000);
+          level.id = level.id + 1
+          let mess = "Clear " + level.id
+          showNotificationClear(mess, 1000);
           // clickClearLevelButton();
           level.targetCount += 2;
           startGame();
@@ -152,17 +153,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function clickEndLevelButton() {
     var endLevelButton = document.getElementById("endLevel");
-    document.getElementById("id_max_level").value = turn.id;
+    document.getElementById("id_max_level").value = level.id;
     document.getElementById("total_words").value = turn.totalTarget;
     document.getElementById("total_time").value = Math.floor(turn.totalTime);
     endLevelButton.click();
   }
 
-  function clickClearLevelButton() {
-    var clearLevelButton = document.getElementById("clearLevel");
-    document.getElementById("idPost").value = turn.id;
-    level.id = document.getElementById("idLevel").value;
-    level.targetCount = document.getElementById("word_count").value;
-    clearLevelButton.click();
-  }
+  // function clickClearLevelButton() {
+  //   var clearLevelButton = document.getElementById("clearLevel");
+  //   document.getElementById("idPost").value = turn.id;
+  //   level.id = document.getElementById("idLevel").value;
+  //   level.targetCount = document.getElementById("word_count").value;
+  //   clearLevelButton.click();
+  // }
 });
