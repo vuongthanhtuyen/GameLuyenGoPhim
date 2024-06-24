@@ -36,8 +36,8 @@
 .target {
     text-align: center;
     position: absolute;
-    font-size: 18px;
-    animation: fall 10s linear forwards;
+    font-size: 20px;
+    animation: fall 30s linear forwards;
 }
 
 @keyframes fall {

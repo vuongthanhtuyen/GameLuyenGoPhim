@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   let intervalId; // Biến lưu trữ setInterval ID
-  let i = 0; // Biến đếm số từ đã gõ đúng
+  let i; // Biến đếm số từ đã gõ đúng
   var level; // Đối tượng level
   let turn; // Đối tượng recordTurn
   let turnTime = 0; // Biến lưu thời gian của mỗi turn
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("typeInput").focus();
     if (!level) return;
     console.log(level)
-
+    i = 0;
     // Tạo danh sách ngẫu nhiên từ listTargets
     const shuffled = getRandomTargets(level);
     turnTime = Date.now();
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var randomTarget = shuffled.pop();
       let newTarget = new Target(randomTarget.name, randomTarget.status);
       createTargetElement(newTarget);
-    }, 1000); // Tạo từ mới mỗi giây
+    }, 2000); // Tạo từ mới mỗi giây
   }
 
 
@@ -88,7 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
           turnTime = (Date.now() - turnTime) / 1000;
           turn.totalTarget = turn.totalTarget + i;
           turn.totalTime = turn.totalTime + turnTime;
-          clickClearLevelButton();
+          console.log(i)
+          // clickClearLevelButton();
+          level.targetCount += 2
           startGame();
         }
 
