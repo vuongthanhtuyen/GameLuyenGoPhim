@@ -2,6 +2,8 @@ from flask import Blueprint,request, render_template, flash, url_for,redirect, s
 from GUI import db
 from datetime import date
 from flask_login import current_user
+import uuid
+
 
 
 
@@ -18,10 +20,10 @@ levelScreen_bl = Blueprint('levelScreen', __name__,template_folder='../GUI/templ
 
 @levelScreen_bl.route('/Game', methods=['GET'])
 def LevelScreenGet(): # Khi người dùng bấm bắt đầu
-    dataSend = {'id': 1, 'word_count': 4}
     # return redirect(url_for('levelScreen', idLevel=1, word_count=4))
+    session["EndGamePost"] = "EndGamePost"
 
-    return render_template('levelScreen.html', dataSend = dataSend, idLevel = 1, word_count = 4)
+    return render_template('levelScreen.html', idLevel = 1, word_count = 4)
 
 
 
@@ -41,46 +43,53 @@ def ClearLevelPost(): # level ở đây là cái lấy từ url truyền tới
 
 @levelScreen_bl.route('/levelScreen', methods=['POST'])
 def EndGamePost():
-    
-    # Thêm vào personal review khi khi người dùng endgame
-    data_from_python = {'id': 2, 'recordWord': 800}
-    newIdMaxLevel = int(request.form.get('id_max_level'))
-    newTotalTime = float(request.form.get('total_time'))
-    newTotalWord = int(request.form.get('total_words'))
+    if"EndGamePost" in session:
+        new_id = str(uuid.uuid4())
 
-    # return render_template('index.html', data_from_python=data_from_python)
+        # Thêm vào personal review khi khi người dùng endgame
+        newIdMaxLevel = int(request.form.get('id_max_level'))
+        newTotalTime = float(request.form.get('total_time'))
+        newTotalWord = int(request.form.get('total_words'))
+        data_from_python = {'id': new_id, 'recordWord':newTotalWord }
+        session["data_from_python"] = data_from_python
 
-    from DTO.models.LeaderBoard_db import LeaderBoard_db
-    level_count = LeaderBoard_db.query.count()
-    topUser = {
-        "id_max_level": newIdMaxLevel,
-        "username": "",
-        "total_words": newTotalWord,
-        "total_time": newTotalTime
-    }
-    #check top 5
-    lowest_leaderboard = LeaderBoard_db.query.order_by(
-        LeaderBoard_db.id_max_level.desc(),
-        LeaderBoard_db.total_words.desc(),
-        LeaderBoard_db.total_time.desc()
-    ).offset(4).limit(1).first()
+        # return render_template('index.html', data_from_python=data_from_python)
 
-    session["createUsername"] = topUser
-    if level_count < 5:
-    # Nếu số lượng bản ghi ít hơn 5, thêm mới bản ghi
-        return redirect(url_for("levelScreen.CreateUsername"))
+        from DTO.models.LeaderBoard_db import LeaderBoard_db
+        level_count = LeaderBoard_db.query.count()
+        topUser = {
+            "id_max_level": newIdMaxLevel,
+            "username": "",
+            "total_words": newTotalWord,
+            "total_time": newTotalTime
+        }
+        #check top 5
+        lowest_leaderboard = LeaderBoard_db.query.order_by(
+            LeaderBoard_db.id_max_level.desc(),
+            LeaderBoard_db.total_words.desc(),
+            LeaderBoard_db.total_time.desc()
+        ).offset(4).limit(1).first()
 
-    elif lowest_leaderboard:
-        if (topUser["id_max_level"] > lowest_leaderboard.id_max_level) or (
-                (topUser["id_max_level"] == lowest_leaderboard.id_max_level) and (topUser["total_words"] > lowest_leaderboard.total_words)) or (
-                (topUser["id_max_level"] == lowest_leaderboard.id_max_level) and (topUser["total_words"] == lowest_leaderboard.total_words) and (
-                topUser["total_time"] > lowest_leaderboard.total_time)):
-            # nếu user đạt top thì add vào một user mới
+        session["createUsername"] = topUser
+        if level_count < 5:
+        # Nếu số lượng bản ghi ít hơn 5, thêm mới bản ghi
             return redirect(url_for("levelScreen.CreateUsername"))
-    session.pop("createUsername",None)
 
+        elif lowest_leaderboard:
+            if (topUser["id_max_level"] > lowest_leaderboard.id_max_level) or (
+                    (topUser["id_max_level"] == lowest_leaderboard.id_max_level) and (topUser["total_words"] > lowest_leaderboard.total_words)) or (
+                    (topUser["id_max_level"] == lowest_leaderboard.id_max_level) and (topUser["total_words"] == lowest_leaderboard.total_words) and (
+                    topUser["total_time"] > lowest_leaderboard.total_time)):
+                # nếu user đạt top thì add vào một user mới
+                return redirect(url_for("levelScreen.CreateUsername"))
+        session.pop("createUsername",None)
 
-    return render_template('personalReview.html',data_from_python=data_from_python)
+        session.pop("EndGamePost",None)
+
+        return render_template('personalReview.html',data_from_python=data_from_python)
+
+    else:
+        return render_template('home.html', user = current_user)
 
 
 
@@ -110,10 +119,15 @@ def CreateUsername():
 
             db.session.add(topUser)
             db.session.commit()
-            leader_boards = LoadLeaderBoard()
-        
+            # leader_boards = LoadLeaderBoard()
+            new_id = str(uuid.uuid4())
+            
+            data_from_python = {'id': new_id, 'recordWord':topUser.total_words }
+            session.pop("data_from_python",None)
 
-            return render_template('leaderBoard.html', leader_boards=leader_boards)
+            return render_template('personalReview.html',data_from_python=data_from_python)
+
+            # return render_template('leaderBoard.html', leader_boards=leader_boards)
 
 
 
