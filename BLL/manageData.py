@@ -18,55 +18,55 @@ def seedData():
     return redirect(url_for('home'))
 
 
-import requests
-from bs4 import BeautifulSoup
-import nltk
-import json
-@manageData_bl.route('/loadJsonWord', methods=['GET'])
-def LoadJsonWord():
-    # Đảm bảo tải xuống các tài nguyên cần thiết của NLTK
-    nltk.download('punkt')
+# import requests
+# from bs4 import BeautifulSoup
+# import nltk
+# import json
+# @manageData_bl.route('/loadJsonWord', methods=['GET'])
+# def LoadJsonWord():
+#     # Đảm bảo tải xuống các tài nguyên cần thiết của NLTK
+#     nltk.download('punkt')
 
-    # Hàm để lấy nội dung từ một URL
-    def fetch_web_content(url):
-        response = requests.get(url)
-        response.raise_for_status()  # Đảm bảo yêu cầu thành công
-        return response.text
+#     # Hàm để lấy nội dung từ một URL
+#     def fetch_web_content(url):
+#         response = requests.get(url)
+#         response.raise_for_status()  # Đảm bảo yêu cầu thành công
+#         return response.text
 
-    # Hàm để lọc và lấy các từ thuần túy từ HTML content
-    def extract_pure_words_from_html(html_content):
-        soup = BeautifulSoup(html_content, 'html.parser')
+#     # Hàm để lọc và lấy các từ thuần túy từ HTML content
+#     def extract_pure_words_from_html(html_content):
+#         soup = BeautifulSoup(html_content, 'html.parser')
 
-        # Lấy toàn bộ văn bản từ trang web
-        text = soup.get_text()
+#         # Lấy toàn bộ văn bản từ trang web
+#         text = soup.get_text()
 
-        # Tokenize văn bản
-        tokens = nltk.word_tokenize(text)
+#         # Tokenize văn bản
+#         tokens = nltk.word_tokenize(text)
 
-        # Lọc các từ thuần túy (chỉ chứa ký tự chữ cái)
-        words = [w for w in tokens if w.isalpha()]
+#         # Lọc các từ thuần túy (chỉ chứa ký tự chữ cái)
+#         words = [w for w in tokens if w.isalpha()]
 
-        return words
+#         return words
 
-    # URL của trang web bạn muốn lấy nội dung
-    url = 'https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/dinh-duong/rau-muong-co-tac-dung-gi/'
+#     # URL của trang web bạn muốn lấy nội dung
+#     url = 'https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/dinh-duong/rau-muong-co-tac-dung-gi/'
 
-    # Lấy nội dung từ trang web
-    html_content = fetch_web_content(url)
+#     # Lấy nội dung từ trang web
+#     html_content = fetch_web_content(url)
 
-    # Lấy các từ thuần túy từ nội dung HTML
-    words = extract_pure_words_from_html(html_content)
+#     # Lấy các từ thuần túy từ nội dung HTML
+#     words = extract_pure_words_from_html(html_content)
 
-    # Tạo cấu trúc JSON
-    output = {
-        "words": words
-    }
+#     # Tạo cấu trúc JSON
+#     output = {
+#         "words": words
+#     }
 
-    # Chuyển đổi cấu trúc JSON thành chuỗi với ensure_ascii=False
-    json_data = json.dumps(output, ensure_ascii=False)
+#     # Chuyển đổi cấu trúc JSON thành chuỗi với ensure_ascii=False
+#     json_data = json.dumps(output, ensure_ascii=False)
 
-    # Trả về JSON response
-    return Response(json_data, content_type='application/json; charset=utf-8')
+#     # Trả về JSON response
+#     return Response(json_data, content_type='application/json; charset=utf-8')
 
 @manageData_bl.route('/test', methods=['GET'])
 def test():
