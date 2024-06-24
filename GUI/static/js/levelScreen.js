@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         throw new TypeError("Dữ liệu trả về không chứa mảng words");
       }
       // Khởi tạo level
-      level = new Level(1, true, [], 4);
+      level = new Level(0, true, [], 4);
       turn = new RecordTurn(level.id, 0, 0);
 
       // Tạo các đối tượng Target từ mảng words và gán cho level
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function startGame() {
     document.getElementById("typeInput").focus();
     if (!level) return;
-    console.log(level)
+    console.log(level);
     i = 0;
     // Tạo danh sách ngẫu nhiên từ listTargets
     const shuffled = getRandomTargets(level);
@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 2000); // Tạo từ mới mỗi giây
   }
 
-
   document
     .getElementById("typeInput")
     .addEventListener("keydown", function (event) {
@@ -88,10 +87,11 @@ document.addEventListener("DOMContentLoaded", function () {
           turnTime = (Date.now() - turnTime) / 1000;
           turn.totalTarget = turn.totalTarget + i;
           turn.totalTime = turn.totalTime + turnTime;
-          console.log(i)
-          addHeading()
+          level.id = level.id + 1
+          let mess = "Clear " + level.id
+          showNotificationClear(mess, 1000);
           // clickClearLevelButton();
-          level.targetCount += 2
+          level.targetCount += 2;
           startGame();
         }
 
@@ -116,12 +116,19 @@ document.addEventListener("DOMContentLoaded", function () {
     return shuffled;
   }
 
-  function addHeading() {
-    const GAMEAREA = document.getElementById("game-area");
-    var h1 = document.createElement("h1"); // Tạo thẻ h1 mới
-    var text = document.createTextNode("Đây là thẻ h1 mới"); // Tạo nội dung cho thẻ h1
-    h1.appendChild(text); // Thêm nội dung vào thẻ h1
-    document.body.appendChild(h1); // Thêm thẻ h1 vào cuối body
+  function showNotificationClear(message, duration) {
+    // Tạo một phần tử div mới để chứa thông báo
+    var notification = document.createElement("div");
+    notification.textContent = message;
+    notification.classList.add("centered-notification");
+
+    // Thêm phần tử thông báo vào body của trang
+    document.body.appendChild(notification);
+
+    // Sử dụng setTimeout để đóng thông báo sau khoảng thời gian duration (đơn vị là mili giây)
+    setTimeout(function() {
+        notification.remove(); // Xóa phần tử thông báo khỏi DOM
+    }, duration);
 }
 
   // Hàm tạo phần tử span từ target
@@ -146,19 +153,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function clickEndLevelButton() {
     var endLevelButton = document.getElementById("endLevel");
-    document.getElementById("id_max_level").value = turn.id;
+    document.getElementById("id_max_level").value = level.id;
     document.getElementById("total_words").value = turn.totalTarget;
     document.getElementById("total_time").value = Math.floor(turn.totalTime);
     endLevelButton.click();
   }
 
-  function clickClearLevelButton() {
-    var clearLevelButton = document.getElementById("clearLevel");
-    document.getElementById("idPost").value = turn.id;
-    level.id = document.getElementById("idLevel").value;
-    level.targetCount = document.getElementById("word_count").value;
-    clearLevelButton.click();
-  }
-
-  
+  // function clickClearLevelButton() {
+  //   var clearLevelButton = document.getElementById("clearLevel");
+  //   document.getElementById("idPost").value = turn.id;
+  //   level.id = document.getElementById("idLevel").value;
+  //   level.targetCount = document.getElementById("word_count").value;
+  //   clearLevelButton.click();
+  // }
 });
