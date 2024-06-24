@@ -7,3 +7,4 @@
     pip install flask-login  
     pip install PyPDF2
     pip install Flask-RESTful
+    pip install beautifulsoup4 

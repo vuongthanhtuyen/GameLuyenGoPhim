@@ -19,8 +19,8 @@ levelScreen_bl = Blueprint('levelScreen', __name__,template_folder='../GUI/templ
 @levelScreen_bl.route('/Game', methods=['GET'])
 def LevelScreenGet(): # Khi người dùng bấm bắt đầu
     dataSend = {'id': 1, 'word_count': 4}
-    # id = 1
-    # word_count = 4
+    # return redirect(url_for('levelScreen', idLevel=1, word_count=4))
+
     return render_template('levelScreen.html', dataSend = dataSend, idLevel = 1, word_count = 4)
 
 
@@ -29,11 +29,11 @@ def LevelScreenGet(): # Khi người dùng bấm bắt đầu
 def ClearLevelPost(): # level ở đây là cái lấy từ url truyền tới
     from DTO.models.Level_db import Level_db
 
-    idLevel = int(request.form.get('idPost')) + 1
+    idLevel = int(request.form.get('idPost'))
     level = Level_db.query.filter_by(id=idLevel).first()
     if level:
 
-        return render_template('clearLevel.html',idLevel =level.id , word_count = level.word_count)
+        return render_template('clearLevel.html',idLevel =level.id, word_count = level.word_count)
 
     else:
         flash('Lỗi không thể truy vấn dữ liệu level.', category='error')
@@ -41,6 +41,7 @@ def ClearLevelPost(): # level ở đây là cái lấy từ url truyền tới
 
 @levelScreen_bl.route('/levelScreen', methods=['POST'])
 def EndGamePost():
+    
     # Thêm vào personal review khi khi người dùng endgame
     data_from_python = {'id': 2, 'recordWord': 800}
     newIdMaxLevel = int(request.form.get('id_max_level'))
