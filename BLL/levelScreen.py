@@ -26,19 +26,18 @@ def LevelScreenGet(): # Khi người dùng bấm bắt đầu
 
 
 @levelScreen_bl.route('/Game', methods=['POST'])
-def ClearLevelPost(): 
+def ClearLevelPost(): # level ở đây là cái lấy từ url truyền tới
     from DTO.models.Level_db import Level_db
 
     idLevel = int(request.form.get('idPost')) + 1
     level = Level_db.query.filter_by(id=idLevel).first()
     if level:
-        # Trả về thông tin level dưới dạng JSON thay vì chuyển trang
-        return jsonify({'idLevel': level.id, 'word_count': level.word_count})
+
+        return render_template('clearLevel.html',idLevel =level.id , word_count = level.word_count)
 
     else:
         flash('Lỗi không thể truy vấn dữ liệu level.', category='error')
-        return jsonify({'error': 'Lỗi không thể truy vấn dữ liệu level.'})
-
+        return render_template('home.html', user = current_user)
 
 @levelScreen_bl.route('/levelScreen', methods=['POST'])
 def EndGamePost():

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   let intervalId; // Biến lưu trữ setInterval ID
   let i = 0; // Biến đếm số từ đã gõ đúng
-  let level; // Đối tượng level
+  var level; // Đối tượng level
   let turn; // Đối tượng recordTurn
   let turnTime = 0; // Biến lưu thời gian của mỗi turn
 
@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
     this.gameStatus = gameStatus;
     this.listTargets = listTargets;
     this.targetCount = targetCount;
-    this.poppedTargets = [];
   }
 
   // Bản record turn dùng để post về
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Tạo các đối tượng Target từ mảng words và gán cho level
       level.listTargets = data.words.map((item) => new Target(item, true));
-      
+
       // Gọi hàm startGame sau khi đã tải dữ liệu thành công
       startGame();
     })
@@ -57,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function startGame() {
     document.getElementById("typeInput").focus();
     if (!level) return;
+    console.log(level)
 
     // Tạo danh sách ngẫu nhiên từ listTargets
     const shuffled = getRandomTargets(level);
@@ -69,12 +69,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       var randomTarget = shuffled.pop();
-      // Thêm đối tượng đã pop vào mảng poppedTargets (tạo bản sao)
       let newTarget = new Target(randomTarget.name, randomTarget.status);
-      level.poppedTargets.push(newTarget);
       createTargetElement(newTarget);
     }, 1000); // Tạo từ mới mỗi giây
   }
+
 
   document
     .getElementById("typeInput")
@@ -89,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
           turnTime = (Date.now() - turnTime) / 1000;
           turn.totalTarget = turn.totalTarget + i;
           turn.totalTime = turn.totalTime + turnTime;
+          clickClearLevelButton();
           startGame();
         }
 
@@ -133,26 +133,20 @@ document.addEventListener("DOMContentLoaded", function () {
     GAMEAREA.appendChild(targetElement);
   }
 
-  // function clickEndLevelButton() {
-  //   var endLevelButton = document.getElementById("endLevel");
-  //   document.getElementById("id_max_level").value = turn.id;
-  //   document.getElementById("total_words").value = turn.totalTarget;
-  //   document.getElementById("total_time").value = turn.totalTime;
-  //   endLevelButton.click();
-  // }
+  function clickEndLevelButton() {
+    var endLevelButton = document.getElementById("endLevel");
+    document.getElementById("id_max_level").value = turn.id;
+    document.getElementById("total_words").value = turn.totalTarget;
+    document.getElementById("total_time").value = turn.totalTime;
+    endLevelButton.click();
+  }
 
   function clickClearLevelButton() {
     var clearLevelButton = document.getElementById("clearLevel");
     document.getElementById("idPost").value = turn.id;
+    level.id = document.getElementById("idLevel").value;
+    level.targetCount = document.getElementById("word_count").value;
     clearLevelButton.click();
-  }
-  
-  function clickEndLevelButton() {
-    fake = document.getElementById("idLevel").value;
-    console.log(fake);
-    var fake2 = document.getElementById("word_count").value;
-    console.log(fake2);
-    // endLevelButton.click();
   }
 
   
