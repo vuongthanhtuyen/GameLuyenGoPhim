@@ -48,7 +48,7 @@ def EndGamePost():
 
         # Thêm vào personal review khi khi người dùng endgame
         newIdMaxLevel = int(request.form.get('id_max_level'))
-        newTotalTime = float(request.form.get('total_time'))
+        newTotalTime = int(request.form.get('total_time'))
         newTotalWord = int(request.form.get('total_words'))
         data_from_python = {'id': new_id, 'recordWord':newTotalWord }
         session["data_from_python"] = data_from_python

@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
           turn.totalTarget = turn.totalTarget + i;
           turn.totalTime = turn.totalTime + turnTime;
           console.log(i)
+          addHeading()
           // clickClearLevelButton();
           level.targetCount += 2
           startGame();
@@ -115,6 +116,14 @@ document.addEventListener("DOMContentLoaded", function () {
     return shuffled;
   }
 
+  function addHeading() {
+    const GAMEAREA = document.getElementById("game-area");
+    var h1 = document.createElement("h1"); // Tạo thẻ h1 mới
+    var text = document.createTextNode("Đây là thẻ h1 mới"); // Tạo nội dung cho thẻ h1
+    h1.appendChild(text); // Thêm nội dung vào thẻ h1
+    document.body.appendChild(h1); // Thêm thẻ h1 vào cuối body
+}
+
   // Hàm tạo phần tử span từ target
   function createTargetElement(target) {
     const GAMEAREA = document.getElementById("game-area");
@@ -139,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var endLevelButton = document.getElementById("endLevel");
     document.getElementById("id_max_level").value = turn.id;
     document.getElementById("total_words").value = turn.totalTarget;
-    document.getElementById("total_time").value = turn.totalTime;
+    document.getElementById("total_time").value = Math.floor(turn.totalTime);
     endLevelButton.click();
   }
 
