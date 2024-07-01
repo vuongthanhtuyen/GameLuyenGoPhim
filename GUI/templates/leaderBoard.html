@@ -11,19 +11,19 @@
     <table class = "text-light table_new" border="1">
         <tr>
             
-            <th>TOP </th>
-            <th>Tên </th>
-            <th>Ngày</th>
-            <th>Level</th>
-            <th>Số từ</th>
-            <th>Tổng thời gian</th>
+            <th class="col-1"> TOP </th>
+            <th class="col-2">Tên </th>
+            <th class="col-3">Ngày</th>
+            <th class="col-2">Level</th>
+            <th class="col-2">Số từ</th>
+            <th class="col-2">Tổng thời gian</th>
         </tr>
     
         {% for leader_board in leader_boards %}
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ leader_board.username }}</td>
-            <td>{{ leader_board.record_date }}</td>
+            <td>{{ leader_board.record_date.strftime('%Y-%m-%d') }}</td>  <!-- Hiển thị chỉ ngày -->
             <td>Level {{ leader_board.id_max_level }}</td>
             <td>{{ leader_board.total_words }}</td>
             <td>{{ leader_board.total_time }}</td>
