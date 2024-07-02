@@ -18,15 +18,6 @@
     </ul>
 
 </div>
-<div class="user">
-    {% if user.is_authenticated %}
-    <p class="inline-css text-secondary">Chào {{user.first_name}}</p>
-    
-    <a class="nav-item nav-link inline-css" id="logout" href="/logout"> Logout</a>
-    {% else %}
-    <a class="nav-item nav-link" id="login" href="/login">Login</a>
-    {% endif %}
 
-</div>
 
 {%endblock%}

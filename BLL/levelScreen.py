@@ -23,23 +23,10 @@ def LevelScreenGet(): # Khi người dùng bấm bắt đầu
     # return redirect(url_for('levelScreen', idLevel=1, word_count=4))
     session["EndGamePost"] = "EndGamePost"
 
-    return render_template('levelScreen.html', idLevel = 1, word_count = 4)
+    return render_template('levelScreen.html')
 
 
 
-@levelScreen_bl.route('/Game', methods=['POST'])
-def ClearLevelPost(): # level ở đây là cái lấy từ url truyền tới
-    from DTO.models.Level_db import Level_db
-
-    idLevel = int(request.form.get('idPost'))
-    level = Level_db.query.filter_by(id=idLevel).first()
-    if level:
-
-        return render_template('clearLevel.html',idLevel =level.id, word_count = level.word_count)
-
-    else:
-        flash('Lỗi không thể truy vấn dữ liệu level.', category='error')
-        return render_template('home.html', user = current_user)
 
 @levelScreen_bl.route('/levelScreen', methods=['POST'])
 def EndGamePost():
